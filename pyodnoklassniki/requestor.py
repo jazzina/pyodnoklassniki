@@ -202,7 +202,8 @@ class OAuth2APIRequestor(object):
                 continue
             params_composed += '{0}={1}'.format(param_name, params[param_name])
 
-        token_and_secret = md5('{0}{1}'.format(self.access_token,
-                                               self.app_secret_key))
+        token_and_secret = md5(bytes('{0}{1}'.format(self.access_token,
+                                               self.app_secret_key),
+                                     encoding='UTF-8')
         sig = md5('{0}{1}'.format(params_composed, token_and_secret.hexdigest()))
         return sig.hexdigest()
